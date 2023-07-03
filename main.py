@@ -13,79 +13,83 @@ BUTTON_FONT = ("Ubuntu", 12)
 
 # Window
 window = ctk.CTk()
-window.geometry("600x310")
-window.title("Declension of Ukrainian numerals")
+
 
 # Settings Frame
-settings_frame = ctk.CTkFrame(window)
+class SettingsFrame(ctk.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master)
+        self.min_random_number = MAX_NUMBER // 2
+        self.max_random_number = MAX_NUMBER // 2
+        self.create_widgets()
 
-ctk.CTkLabel(settings_frame, text="Налаштування", font=HEADER_FONT).grid(row=0, column=0, padx=5, pady=5)
-ctk.CTkLabel(settings_frame, text="Мінімальне число", font=ELEMENTS_FONT).grid(row=1, column=0, padx=5, pady=5)
-ctk.CTkLabel(settings_frame, text="Максимальне число", font=ELEMENTS_FONT).grid(row=4, column=0, padx=5, pady=5)
+    def create_widgets(self):
+        ctk.CTkLabel(self, text="Налаштування", font=HEADER_FONT).grid(row=0, column=0, padx=5, pady=5)
+        ctk.CTkLabel(self, text="Мінімальне число", font=ELEMENTS_FONT).grid(row=1, column=0, padx=5, pady=5)
+        ctk.CTkLabel(self, text="Максимальне число", font=ELEMENTS_FONT).grid(row=4, column=0, padx=5, pady=5)
 
-min_random_number = MAX_NUMBER // 2
-max_random_number = MAX_NUMBER // 2
+        self.min_number_label = ctk.CTkLabel(self, text=str(self.min_random_number), font=ELEMENTS_FONT)
+        self.min_number_label.grid(row=2, column=0, padx=5, pady=5)
+        self.max_number_label = ctk.CTkLabel(self, text=str(self.max_random_number), font=ELEMENTS_FONT)
+        self.max_number_label.grid(row=5, column=0, padx=5, pady=5)
 
-min_number_label = ctk.CTkLabel(settings_frame, text=str(min_random_number), font=ELEMENTS_FONT)
-min_number_label.grid(row=2, column=0, padx=5, pady=5)
-max_number_label = ctk.CTkLabel(settings_frame, text=str(max_random_number), font=ELEMENTS_FONT)
-max_number_label.grid(row=5, column=0, padx=5, pady=5)
+        self.min_number_slider = ctk.CTkSlider(self, from_=0, to=MAX_NUMBER, number_of_steps=MAX_NUMBER,
+                                               command=self.min_slider_event)
+        self.min_number_slider.grid(row=3, column=0, padx=5, pady=5)
+
+        self.max_number_slider = ctk.CTkSlider(self, from_=0, to=MAX_NUMBER, number_of_steps=MAX_NUMBER,
+                                               command=self.max_slider_event)
+        self.max_number_slider.grid(row=6, column=0, padx=5, pady=5)
+
+    def min_slider_event(self, value):
+        self.min_number_label.configure(text=str(round(value)))
+        self.min_random_number = round(value)
+
+    def max_slider_event(self, value):
+        self.max_number_label.configure(text=str(round(value)))
+        self.max_random_number = round(value)
 
 
-def min_slider_event(value):
-    min_number_label.configure(text=str(round(value)))
-    global min_random_number
-    min_random_number = round(value)
-
-
-def max_slider_event(value):
-    max_number_label.configure(text=str(round(value)))
-    global max_random_number
-    max_random_number = round(value)
-
-
-min_number_slider = ctk.CTkSlider(settings_frame, from_=0, to=MAX_NUMBER, number_of_steps=MAX_NUMBER,
-                                  command=min_slider_event)
-min_number_slider.grid(row=3, column=0, padx=5, pady=5)
-
-max_number_slider = ctk.CTkSlider(settings_frame, from_=0, to=MAX_NUMBER, number_of_steps=MAX_NUMBER,
-                                  command=max_slider_event)
-max_number_slider.grid(row=6, column=0, padx=5, pady=5)
-
+settings_frame = SettingsFrame(window)
 settings_frame.grid(row=0, column=1, padx=10, pady=10)
 
+
 # Input Frame
-input_frame = ctk.CTkFrame(window)
+class InputFrame(ctk.CTkFrame):
+    def __init__(self, master):
+        super().__init__(master)
+        self.random_number = 0
+        self.case_entries = []
+        self.create_widgets()
 
-random_number_label = ctk.CTkLabel(input_frame, text="000000", font=HEADER_FONT)
-random_number_label.grid(row=0, column=0, columnspan=2)
+    def create_widgets(self):
+        self.random_number_label = ctk.CTkLabel(self, text="000000", font=HEADER_FONT)
+        self.random_number_label.grid(row=0, column=0, columnspan=2)
 
-for i in range(len(DECLENSIONS)):
-    ctk.CTkLabel(input_frame, text=DECLENSIONS[i], font=ELEMENTS_FONT).grid(row=i+1, column=0, sticky='w', padx=5,
-                                                                            pady=5)
+        for i in range(len(DECLENSIONS)):
+            ctk.CTkLabel(self, text=DECLENSIONS[i], font=ELEMENTS_FONT).grid(row=i + 1, column=0, sticky='w', padx=5,
+                                                                             pady=5)
 
-case_entries = []
+        for i in range(len(CASE_LABELS)):
+            case_entry = ctk.CTkEntry(self, width=300, height=15)
+            case_entry.grid(row=i + 1, column=1, padx=5, pady=5)
+            self.case_entries.append(case_entry)
 
-for i, case_label in enumerate(CASE_LABELS):
-    case_entry = ctk.CTkEntry(input_frame, width=300, height=15)
-    case_entry.grid(row=i+1, column=1, padx=5, pady=5)
-    case_entries.append(case_entry)
+        start_button = ctk.CTkButton(self, text="Згенерувати число", font=BUTTON_FONT,
+                                     command=self.generate_number)
+        start_button.grid(row=len(CASE_LABELS) + 1, column=0, padx=5, pady=5, columnspan=2, sticky='w')
+
+        check_button = ctk.CTkButton(self, text="Перевірити", font=BUTTON_FONT)
+        check_button.grid(row=len(CASE_LABELS) + 1, column=1, padx=5, pady=5, sticky='e')
+
+    def generate_number(self):
+
+        self.random_number = randint(settings_frame.min_random_number, settings_frame.max_random_number)
+        self.random_number_label.configure(text=str(self.random_number))
 
 
-def generate_number():
-    random_number = randint(min_random_number, max_random_number)
-    random_number_label.configure(text=str(random_number))
-
-
-start_button = ctk.CTkButton(input_frame, text="Згенерувати число", font=BUTTON_FONT,
-                             command=generate_number)
-start_button.grid(row=7, column=0, padx=5, pady=5, columnspan=2, sticky='w')
-
-check_button = ctk.CTkButton(input_frame, text="Перевірити", font=BUTTON_FONT)
-check_button.grid(row=7, column=1, padx=5, pady=5, sticky='e')
-
+input_frame = InputFrame(window)
 input_frame.grid(row=0, column=0, padx=10, pady=10)
-
 
 # Close Window
 window.mainloop()
