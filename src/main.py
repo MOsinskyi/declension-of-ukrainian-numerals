@@ -1,5 +1,7 @@
 import customtkinter as ctk
 from random import randint
+from declension_system import *
+from CTkMessagebox import CTkMessagebox
 
 DECLENSIONS = ["H.", "P.", "Д.", "З.", "О.", "М."]
 CASE_LABELS = ["nominative", "genitive", "dative", "accusative", "ablative", "local"]
@@ -61,6 +63,12 @@ class InputFrame(ctk.CTkFrame):
         self.random_number = 0
         self.case_entries = []
         self.create_widgets()
+        self.nominative_number = ''
+        self.genitive_number = ''
+        self.dative_number = ''
+        self.accusative_number = ''
+        self.ablative_number = ''
+        self.local_number = ''
 
     def create_widgets(self):
         self.random_number_label = ctk.CTkLabel(self, text="000000", font=HEADER_FONT)
@@ -79,13 +87,21 @@ class InputFrame(ctk.CTkFrame):
                                      command=self.generate_number)
         start_button.grid(row=len(CASE_LABELS) + 1, column=0, padx=5, pady=5, columnspan=2, sticky='w')
 
-        check_button = ctk.CTkButton(self, text="Перевірити", font=BUTTON_FONT)
+        check_button = ctk.CTkButton(self, text="Перевірити", font=BUTTON_FONT, command=self.check_solution)
         check_button.grid(row=len(CASE_LABELS) + 1, column=1, padx=5, pady=5, sticky='e')
 
     def generate_number(self):
 
         self.random_number = randint(settings_frame.min_random_number, settings_frame.max_random_number)
         self.random_number_label.configure(text=str(self.random_number))
+
+        self.nominative_number, self.genitive_number, self.dative_number, self.accusative_number, self.ablative_number, self.local_number = declension_number(self.random_number)
+
+    def check_solution(self):
+        if(self.case_entries[0].get() == self.nominative_number and self.case_entries[1].get() == self.genitive_number and
+                self.case_entries[2].get() == self.dative_number and self.case_entries[3].get() == self.accusative_number and
+                self.case_entries[4].get() == self.ablative_number and self.case_entries[5].get() == self.local_number):
+            CTkMessagebox(title="Результат", message="Все правильно, так тримати!", icon="check")
 
 
 input_frame = InputFrame(window)
