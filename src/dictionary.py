@@ -57,6 +57,14 @@ HUNDREDS_ABLATIVE = ['', 'ста', 'двомастами', 'трьомастам
                      'дев\'ятьмастами/дев\'ятьомастами']
 HUNDREDS_LOCAL = ['', 'ста', 'двохстах', 'трьохстах', 'чотирьохстах', 'п\'ятистах', 'шестистах', 'семистах',
                   'восьмистах', 'дев\'ятистах']
+THOUSANDS_NOMINATIVE = ['', 'тисяча', 'тисячі', 'тисячі', 'тисячі', 'тисяч', 'тисяч', 'тисяч', 'тисяч', 'тисяч']
+THOUSANDS_GENITIVE = ['', 'тисячі', 'тисяч', 'тисяч', 'тисяч', 'тисяч', 'тисяч', 'тисяч', 'тисяч', 'тисяч']
+THOUSANDS_DATIVE = ['', 'тисячі', 'тисячам', 'тисячам', 'тисячам', 'тисячам', 'тисячам', 'тисячам', 'тисячам',
+                    'тисячам']
+THOUSANDS_ACCUSATIVE = ['', 'тисячу', 'тисячі', 'тисячі', 'тисячі', 'тисяч', 'тисяч', 'тисяч', 'тисяч', 'тисяч']
+THOUSANDS_ABLATIVE = ['', 'тисячею', 'тисячами', 'тисячами', 'тисячами', 'тисячами', 'тисячами', 'тисячами', 'тисячами',
+                      'тисячами']
+THOUSANDS_LOCAL = ['', 'тисячі', 'тисячах', 'тисячах', 'тисячах', 'тисячах', 'тисячах', 'тисячах', 'тисячах', 'тисячах']
 
 CASES = {
     0: [UNITS_NOMINATIVE, TEENS_NOMINATIVE, TENS_NOMINATIVE, HUNDREDS_NOMINATIVE],
@@ -66,3 +74,7 @@ CASES = {
     4: [UNITS_ABLATIVE, TEENS_ABLATIVE, TENS_ABLATIVE, HUNDREDS_ABLATIVE],
     5: [UNITS_LOCAL, TEENS_LOCAL, TENS_LOCAL, HUNDREDS_LOCAL]
 }
+
+THOUSANDS = [THOUSANDS_NOMINATIVE, THOUSANDS_GENITIVE, THOUSANDS_DATIVE, THOUSANDS_ACCUSATIVE, THOUSANDS_ABLATIVE,
+             THOUSANDS_LOCAL]
+

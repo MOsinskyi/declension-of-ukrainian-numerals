@@ -13,8 +13,19 @@ def declension_number(number):
             return words[1][n - 10]
         elif n < 100:
             return words[2][n // 10] + ' ' + words[0][n % 10]
-        elif n < 1000 and case in [0, 2, 3, 4, 5]:
+        elif n < 1000 and case in [0, 1, 2, 3, 4, 5]:
             return words[3][n // 100] + ' ' + convert_to_words(n % 100, case)
+        elif n < 10000 and case in [0, 1, 2, 3, 4, 5]:
+            if n // 1000 != 1:
+                return words[0][n // 1000] + ' ' + THOUSANDS[case][n // 1000] + ' ' + convert_to_words(n % 1000, case)
+            else:
+                return THOUSANDS[case][n // 1000] + ' ' + convert_to_words(n % 1000, case)
+        elif n < 20000 and case in [0, 1, 2, 3, 4, 5]:
+            return words[1][n // 10000] + ' ' + THOUSANDS[case][n // 10000] + ' ' + convert_to_words(n % 10000, case)
+        elif n < 100000 and case in [0, 1, 2, 3, 4, 5]:
+            return words[2][n // 10000] + ' ' + convert_to_words(n % 10000, case)
+        elif n < 1000000 and case in [0, 1, 2, 3, 4, 5]:
+            return words[3][n // 100000] + ' ' + convert_to_words(n % 100000, case)
 
     nominative_number = convert_to_words(number, 0)
     genitive_number = convert_to_words(number, 1)

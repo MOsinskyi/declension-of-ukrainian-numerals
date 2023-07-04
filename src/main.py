@@ -95,12 +95,17 @@ class InputFrame(ctk.CTkFrame):
         self.random_number = randint(settings_frame.min_random_number, settings_frame.max_random_number)
         self.random_number_label.configure(text=str(self.random_number))
 
-        self.nominative_number, self.genitive_number, self.dative_number, self.accusative_number, self.ablative_number, self.local_number = declension_number(self.random_number)
+        self.nominative_number, self.genitive_number, self.dative_number, self.accusative_number, self.ablative_number, \
+            self.local_number = declension_number(self.random_number)
+
+        print(self.nominative_number, self.genitive_number, self.dative_number, self.accusative_number,
+              self.ablative_number, self.local_number)
 
     def check_solution(self):
-        if(self.case_entries[0].get() == self.nominative_number and self.case_entries[1].get() == self.genitive_number and
-                self.case_entries[2].get() == self.dative_number and self.case_entries[3].get() == self.accusative_number and
-                self.case_entries[4].get() == self.ablative_number and self.case_entries[5].get() == self.local_number):
+        if(self.case_entries[0].get() == self.nominative_number and self.case_entries[1].get() == self.genitive_number
+                and self.case_entries[2].get() == self.dative_number and self.case_entries[3].get() ==
+                self.accusative_number and self.case_entries[4].get() == self.ablative_number and
+                self.case_entries[5].get() == self.local_number):
             CTkMessagebox(title="Результат", message="Все правильно, так тримати!", icon="check")
 
 
