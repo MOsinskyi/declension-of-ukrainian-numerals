@@ -66,6 +66,7 @@ THOUSANDS_ABLATIVE = ['', 'тисячею', 'тисячами', 'тисячам�
                       'тисячами']
 THOUSANDS_LOCAL = ['', 'тисячі', 'тисячах', 'тисячах', 'тисячах', 'тисячах', 'тисячах', 'тисячах', 'тисячах', 'тисячах']
 
+
 CASES = {
     0: [UNITS_NOMINATIVE, TEENS_NOMINATIVE, TENS_NOMINATIVE, HUNDREDS_NOMINATIVE],
     1: [UNITS_GENITIVE, TEENS_GENITIVE, TENS_GENITIVE, HUNDREDS_GENITIVE],

@@ -3,6 +3,7 @@ from random import randint
 from declension_system import *
 from CTkMessagebox import CTkMessagebox
 
+
 DECLENSIONS = ["H.", "P.", "Д.", "З.", "О.", "М."]
 CASE_LABELS = ["nominative", "genitive", "dative", "accusative", "ablative", "local"]
 

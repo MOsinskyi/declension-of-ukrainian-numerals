@@ -35,3 +35,4 @@ def declension_number(number):
     local_number = convert_to_words(number, 5)
 
     return nominative_number, genitive_number, dative_number, accusative_number, ablative_number, local_number
+
